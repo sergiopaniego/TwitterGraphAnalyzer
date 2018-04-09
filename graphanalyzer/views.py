@@ -17,17 +17,10 @@ def index(request):
 
 
 def loadjson(request):
-    json_data = open('real_tweets.json')
+    json_data = open('tweets.json')
     data = json.load(json_data)
     return JsonResponse(data, safe=False)
 
-
-'''
-def loadjson(request):
-    json_data = open('graphanalyzer/static/graphanalyzer/real_tweets.json')
-    data = json.load(json_data)
-    return JsonResponse(data, safe=False)
-'''
 myList = []
 
 
@@ -91,7 +84,7 @@ class RefreshGraphThread(threading.Thread):
         print("Starting " + self.name)
         while (True):
             graph = Graph(password=secrets.password)
-            filename = "real_tweets.json"
+            filename = "tweets.json"
             with open(filename, 'w') as outfile:
                 outfile.write("{\"nodes\": ")
                 json.dump(graph.data("MATCH (n) RETURN (n)"), outfile)

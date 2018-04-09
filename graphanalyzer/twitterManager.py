@@ -122,8 +122,6 @@ class MyStreamListener(tweepy.StreamListener):
                 return False
         else:
             self.set_is_not_last_tweet(True)
-            tweet = json.loads(data)
-            print(tweet)
         return True
 
     def on_error(self, status_code):

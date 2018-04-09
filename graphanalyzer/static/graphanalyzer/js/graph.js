@@ -1,6 +1,9 @@
 var self = this,
 
-svg = d3.select("svg"),
+svg = d3.select("svg")
+        .call(d3.zoom().on("zoom", function () {
+                          svg.attr("transform", d3.event.transform)
+                  })),
 
 width = +svg.attr("width"),
 
@@ -17,7 +20,7 @@ nodeGroup = svg.append("g")
           .attr("class", "nodes");
 
 function updateGraph() {
-    d3.json("real_tweets.json", function(targetElement, graph) {
+    d3.json("tweets.json", function(targetElement, graph) {
         if (targetElement) throw targetElement;
 
         svg.selectAll("line").remove();
@@ -54,24 +57,33 @@ function updateGraph() {
 
             // Update the nodes
             node = nodeGroup
-                .selectAll("circle")
+                .selectAll("g")
                 .data(graph.nodes);
 
             // Enter any new nodes
-            nodeEnter = node.enter().append("circle")
-                       .attr("r", radius - .75)
-                       .style("fill", function(d) { return color(d.group); })
-                       .style("stroke", function(d) { return d3.rgb(color(d.group)).darker(); })
+            nodeEnter = node.enter().append("g")
                        .call(d3.drag()
                             .on("start", dragstarted)
                             .on("drag", dragged)
                             .on("end", dragended));
 
+
+
             node = nodeEnter.merge(node);
+
+            node.append("image")
+                  .attr("xlink:href", "https://twitter.com/favicon.ico")
+                  .attr("width", 16)
+                  .attr("height", 16);
+
+            node.append("text")
+                .attr("dx", 12)
+                .attr("dy", ".35em")
+                .text(function(d) { return d.n.name });
+
 
             // Exit any old nodes
             node.exit().remove();
-
 
 
             function ticked() {
@@ -81,9 +93,7 @@ function updateGraph() {
                     .attr("x2", function(d) { return d.target.x; })
                     .attr("y2", function(d) { return d.target.y; });
 
-                node
-                    .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-                    .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+                node.attr("transform", function(d) { return "translate(" + Math.max(radius, Math.min(width - radius, d.x)) + "," + Math.max(radius, Math.min(height - radius, d.y)) + ")"; });
             }
 
 
