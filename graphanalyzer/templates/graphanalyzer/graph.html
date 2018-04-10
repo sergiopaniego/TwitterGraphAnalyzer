@@ -1,30 +1,51 @@
 {% load static %}
+<html>
+    <head>
+        <title>Graph</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'graphanalyzer/css/style.css' %}">
 
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="{% static 'graphanalyzer/css/style.css' %}">
+    </head>
+    <body style="background-color: #000000;">
+        <div>
+            <ul style="text-align: center;">
+                <li><a  href="#normal"> <h2>Normal</h2></a></li>
+                <li><a class="active" href="#pageRank"> <h2>Page Rank</h2></a></li>
+                <li><a href="#betweenness"><h2>Betweenness</h2></a></li>
+                <li><a href="#closeness"><h2>Closeness</h2></a></li>
+            </ul>
+        </div>
+        <div class="row justify-content-center"  id="graph">
+            <svg style="background-color: #ffffff;" width="960" height="600"></svg>
+        </div>
 
-<div class="container">
-    <div class="row">
-        <div id="" class="col border border-primary" align="center">
-            <h2>Page Rank</h2>
-        </div>
-        <div class="col border border-primary" align="center">
-            <h2>Betweenness</h2>
-        </div>
-        <div class="col border border-primary" align="center">
-            <h2>Closeness</h2>
-        </div>
-    </div>
-</div>
-<div class="row justify-content-center"  id="graph">
-    <svg width="960" height="600"></svg>
-</div>
-<div class="row justify-content-center">
-    <a class="btn btn-info pull-right" onclick="updateGraph()">Update graph</a>
-</div>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="{% static 'graphanalyzer/js/graph.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <footer class="page-footer font-small unique-color-dark pt-0">
+            <div style="background-color: #6351ce;">
+                <div class="container">
+                    <div class="row py-4 d-flex">
+                            <a class="update-btn" onclick="updateGraph()">Update Graph</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright py-3 text-center">
+                <span  style="color: #ffffff">2018 URJC Madrid:</span>
+                <a style="color: #ffffff;">
+                    <strong> Sergio Paniego Blanco</strong>
+                </a>
+            </div>
+        </footer>
+
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="{% static 'graphanalyzer/js/graph.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script>
+            $('li').click(function() {
+                $('li > a').removeClass();
+                $(this).children('a').addClass('active');
+            });
+        </script>
+    </body>
+</html>

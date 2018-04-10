@@ -1,21 +1,39 @@
 {% load static %}
-
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="{% static 'graphanalyzer/css/style.css' %}">
-
-<div class="row justify-content-center">
-    <h1>Twitter Graph Analyzer</h1>
-</div>
-<div class="row justify-content-center vertical-center">
-    <form action="{% url 'graphanalyzer:graph' %}" method="post">
-    {% csrf_token %}
-        {{form}}
-        <label for="hashtag">Enter hashtag</label><br />
-        <input name="hashtag" id="hashtag" value="Hashtag" />
-    <input type="submit" value="Search"/>
-    </form>
-</div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<html>
+    <head>
+        <title>Twitter Graph Analyzer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'graphanalyzer/css/style.css' %}">
+    </head>
+    <body style="background-color: #6351ce;">
+        <div>
+            <ul style="text-align: center;">
+                <li><<h1>Twitter Graph Analyzer</h1>/li>
+            </ul>
+        </div>
+        <div class="search-wrapper">
+            <div class="input-holder">
+                <form action="{% url 'graphanalyzer:graph' %}" method="post">
+                {% csrf_token %}
+                    {{form}}
+                    <input type="text" name="hashtag" class="search-input" placeholder="Enter a hashtag" />
+                    <button type="submit" class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+                </form>
+            </div>
+            <span class="close" onclick="searchToggle(this, event);"></span>
+        </div>
+        <footer class="page-footer font-small unique-color-dark pt-0">
+            <div class="footer-copyright py-3 text-center">
+                <span  style="color: #ffffff">2018 URJC Madrid:</span>
+                <a style="color: #ffffff;">
+                    <strong> Sergio Paniego Blanco</strong>
+                </a>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="{% static 'graphanalyzer/js/main.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>

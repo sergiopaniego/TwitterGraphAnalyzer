@@ -102,3 +102,6 @@ ENV/
 
 # keys
 secrets.py
+
+# miscellaneous
+.idea/
