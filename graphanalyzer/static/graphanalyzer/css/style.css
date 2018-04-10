@@ -15,3 +15,12 @@
   stroke: #fff;
   stroke-width: 1.5px;
 }
+
+.point circle {
+  cursor: pointer;
+  text-align: center;
+  fill: #E2137E;
+  r: 10;
+  stroke: #333;
+  stroke-width: 2px;
+}

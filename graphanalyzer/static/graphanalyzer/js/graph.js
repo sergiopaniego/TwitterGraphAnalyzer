@@ -62,23 +62,25 @@ function updateGraph() {
 
             // Enter any new nodes
             nodeEnter = node.enter().append("g")
+                        .attr("class", "point")
                        .call(d3.drag()
                             .on("start", dragstarted)
                             .on("drag", dragged)
                             .on("end", dragended));
 
 
-
             node = nodeEnter.merge(node);
 
-            node.append("image")
-                  .attr("xlink:href", "https://twitter.com/favicon.ico")
-                  .attr("width", 16)
-                  .attr("height", 16);
+            node.html("");
+
+            node.append("circle")
+                        .attr("r", radius - .75)
+                        .style("fill", function(d) { return color(d.group); })
+                       .style("stroke", function(d) { return d3.rgb(color(d.group)).darker(); });
 
             node.append("text")
-                .attr("dx", 12)
-                .attr("dy", ".35em")
+                .attr("dx", -20)
+                //.attr("dy", ".35em")
                 .text(function(d) { return d.n.name });
 
 
