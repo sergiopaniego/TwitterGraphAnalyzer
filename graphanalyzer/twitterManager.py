@@ -90,7 +90,7 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_data(self, data):
         global is_not_last_tweet
-        print("Is not last tweet :" + str(is_not_last_tweet))
+        print("Is not last tweet :" + str(is_not_last_tweet) + ' ' + data)
         if is_not_last_tweet:
             if (time.time() - self.start_time) < self.limit:
                 tweet = json.loads(data)
@@ -125,6 +125,7 @@ class MyStreamListener(tweepy.StreamListener):
         return True
 
     def on_error(self, status_code):
+        print('Error raised: ' + status_code)
         if status_code == 420 & current_user == 0:
             connectToStream()
         elif status_code == 420 & current_user == 1:
