@@ -102,6 +102,7 @@ class MyStreamListener(tweepy.StreamListener):
                     tweetObject.time = tweet['created_at']
                     tweetObject.location = tweet['user']['location']
                     tweetObject.id = tweet['user']['id']
+                    tweetObject.profile_picture = tweet['user']['profile_image_url_https']
                     list.append(tweetObject)
                     checkRelationships(tweetObject)
                     print()
@@ -114,6 +115,7 @@ class MyStreamListener(tweepy.StreamListener):
                     tweetObject.time = tweet['created_at']
                     tweetObject.location = tweet['user']['location']
                     tweetObject.id = tweet['user']['id']
+                    tweetObject.profile_picture = tweet['user']['profile_image_url_https']
                     list.append(tweetObject)
                     checkRelationships(tweetObject)
                     print()
@@ -145,7 +147,7 @@ class Tweet(GraphObject):
     time = Property()
     location = Property()
     id = Property()
-
+    profile_picture = Property()
     Following = Related("Tweet", "FOLLOWING")
     Followed_by = Related("Tweet", "FOLLOWED_BY")
 

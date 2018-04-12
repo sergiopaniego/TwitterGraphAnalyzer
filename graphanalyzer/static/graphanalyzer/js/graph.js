@@ -146,21 +146,22 @@ updateGraph();
 
 function showDetail(d, i) {
     var tweetText;
-    tweetText = "<h6 style=\"color:white;font-weight:bold\">" + d.n.name + "</h6>";
-    tweetText = tweetText + "<h6 style=\"color:white\">" + "@" + d.n.username + "</h6>";
+    tweetText = "<img style=\"float: left;\" src=\"" + d.n.profile_picture + "\" alt=\"Profile picture\">"
+    tweetText = tweetText + "<h4 style=\"color:white;font-weight:bold;margin-left: 70px;margin-bottom:0px;\">" + d.n.name + "</h4>";
+    tweetText = tweetText + "<h6 style=\"color:white;margin-left: 70px;\">" + "@" + d.n.username + "</h6>";
     tweetText = tweetText + "<h6 style=\"color:white\">" + d.n.tweet + "</h6>";
     tweetText = tweetText + "<img style=\"float: left;\" src=\"/static/graphanalyzer/images/location.png\"/ height=\"15\" width=\"15\">"
-        +  "<h6 style=\"color:white;\">" + d.n.location + "</h6>";
+        +  "<h6 style=\"color:white;margin-left: 20px;\">" + d.n.location + "</h6>";
     var tweetDate = new Date(d.n.time);
     var timestamp = new Date();
     var difference = (timestamp - tweetDate)/ 1000;
     var showingTime;
     if (difference <= 60) {
-        showingTime = Math.round(difference) + "seg ago";
+        showingTime = Math.round(difference) + " seg ago";
     } else if (difference <= 3600) {
-        showingTime = Math.round(difference/60) + "min ago";
+        showingTime = Math.round(difference/60) + " min ago";
     } else if (difference <= 216000) {
-        showingTime = Math.round(difference/3600) + "h ago";
+        showingTime = Math.round(difference/3600) + " h ago";
     } else {
         showingTime = tweetDate.getDate() + ' ' + tweetDate.getMonth() + ' ' + tweetDate.getFullYear();
     }
