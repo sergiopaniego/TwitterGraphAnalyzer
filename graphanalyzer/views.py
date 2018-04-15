@@ -36,27 +36,19 @@ class GraphView(FormView, ListView):
         if len(myList) > 0:
             myList[0].closeThread()
             myList.pop()
-        thread = TwitterThread(1, "Twitter Thread", form)
+        thread = TwitterThread(1, 'Twitter Thread', form)
         time.sleep(2)
         thread.start()
         myList.append(thread)
-        print("Number of threads " + str(len(myList)))
+        print('Number of threads ' + str(len(myList)))
         return super().form_valid(form)
 
     def get_queryset(self):
-        thread = RefreshGraphThread(1, "Refresh Thread")
+        thread = RefreshGraphThread(1, 'Refresh Thread')
         time.sleep(1)
         thread.start()
         graph = Graph(password=secrets.password)
-        return graph.data("MATCH(n) RETURN n")
-
-    '''
-        "{\"nodes\": " + graph.data("MATCH (n) RETURN (n)") +   "\"links\": []}"
-        MATCH (n)-[r]->(m),(o) RETURN n,r,m,o;
-        MATCH (n)-[r]->(m) RETURN n,r,m;
-        MATCH(n) RETURN n;
-    '''
-
+        return graph.data('MATCH(n) RETURN n')
 
 class TwitterThread(threading.Thread):
     def __init__(self, threadID, name, form):
@@ -66,9 +58,9 @@ class TwitterThread(threading.Thread):
         self.form = form
 
     def run(self):
-        print("Starting " + self.name)
+        print('Starting ' + self.name)
         twitterManager.connectToStream(self.form.cleaned_data['hashtag'])
-        print("Exiting " + self.name)
+        print('Exiting ' + self.name)
 
     def closeThread(self):
         twitterManager.closeThread()
@@ -80,14 +72,56 @@ class RefreshGraphThread(threading.Thread):
         self.threadID = threadID
         self.name = name
 
+    def checkTweetText(self, tweet):
+        newTweet = ''
+        for idx,char in enumerate(tweet):
+            if char == '"':
+                newTweet += '\\"'
+            else:
+                newTweet += char
+        print(tweet)
+        print(newTweet)
+        return newTweet
+
+    def getNodes(self):
+        graph = Graph(password=secrets.password)
+        filename = 'nodes.json'
+        with open(filename, 'w') as outfile:
+            outfile.write('{"nodes": ')
+            json.dump(graph.data('MATCH (node) RETURN (node)'), outfile)
+            outfile.write('}')
+        tweets = '{"nodes": ['
+        nodes = json.load(open(filename))
+        for idx, node in enumerate(nodes['nodes']):
+            tweets += json.dumps(node['node'])
+            if (idx+1) < len(nodes['nodes']):
+                tweets += ','
+        tweets += ']'
+        return tweets
+
+    def getLinks(self):
+        graph = Graph(password=secrets.password)
+        filename = "relationships.json"
+        with open(filename, 'w') as outfile:
+            outfile.write('{"links": ')
+            json.dump(graph.data('MATCH (n)-[r]->(m) RETURN n,r,m;'), outfile)
+            outfile.write('}')
+        links = ', "links": ['
+        relationships = json.load(open(filename))
+        for idx, relationship in enumerate(relationships['links']):
+            links += '{"source": ' + str(relationship['n']['id']) +', "target": ' + str(relationship['m']['id']) + ', "value": 1}'
+            if (idx+1) < len(relationships['links']):
+                links += ','
+        links += ']}'
+        return links
+
     def run(self):
-        print("Starting " + self.name)
+        print('Starting ' + self.name)
         while (True):
-            graph = Graph(password=secrets.password)
-            filename = "tweets.json"
+            filename = 'tweets.json'
             with open(filename, 'w') as outfile:
-                outfile.write("{\"nodes\": ")
-                json.dump(graph.data("MATCH (n) RETURN (n)"), outfile)
-                outfile.write(", \"links\": []}")
+                outfile.write(self.getNodes())
+                outfile.write(self.getLinks())
+            self.getLinks()
             time.sleep(5)
-        print("Exiting " + self.name)
+        print('Exiting ' + self.name)

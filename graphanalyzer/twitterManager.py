@@ -68,8 +68,7 @@ def checkRelationships(tweetObject):
                 tweetObject.Following.add(x)
             if friendship[1].followed_by == True:
                 print("FOUND! FOLLOWED_BY")
-                tweetObject.Followed_by.add(x)
-            # print(friendship)
+                x.Following.add(tweetObject)
         graph.create(tweetObject)
     except tweepy.RateLimitError:
         print("Rate Limit Error")
@@ -90,44 +89,37 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_data(self, data):
         global is_not_last_tweet
-        print("Is not last tweet :" + str(is_not_last_tweet) + ' ' + data)
+        print("Is not last tweet :" + str(is_not_last_tweet))
         if is_not_last_tweet:
             if (time.time() - self.start_time) < self.limit:
                 tweet = json.loads(data)
-                # print(tweet)
-                if (tweet['user']['verified'] == 'true'):
-                    tweetObject = Tweet()
-                    tweetObject.name = tweet['user']['name']
+                tweetObject = Tweet()
+                tweetObject.username = tweet['user']['screen_name']
+                tweetObject.name = tweet['user']['name']
+                tweetObject.time = tweet['created_at']
+                tweetObject.location = tweet['user']['location']
+                tweetObject.id = tweet['user']['id']
+                tweetObject.profile_picture = tweet['user']['profile_image_url_https']
+                try:
+                    tweetObject.tweet = tweet['extended_tweet']['full_text']
+                except KeyError:
                     tweetObject.tweet = tweet['text']
-                    tweetObject.time = tweet['created_at']
-                    tweetObject.location = tweet['user']['location']
-                    tweetObject.id = tweet['user']['id']
-                    tweetObject.profile_picture = tweet['user']['profile_image_url_https']
-                    list.append(tweetObject)
-                    checkRelationships(tweetObject)
-                    print()
+                list.append(tweetObject)
+                checkRelationships(tweetObject)
+                if (tweet['user']['verified'] == 'true'):
+                    print('verified')
                 else:
                     print('unverified')
-                    tweetObject = Tweet()
-                    tweetObject.username = tweet['user']['screen_name']
-                    tweetObject.name = tweet['user']['name']
-                    tweetObject.tweet = tweet['text']
-                    tweetObject.time = tweet['created_at']
-                    tweetObject.location = tweet['user']['location']
-                    tweetObject.id = tweet['user']['id']
-                    tweetObject.profile_picture = tweet['user']['profile_image_url_https']
-                    list.append(tweetObject)
-                    checkRelationships(tweetObject)
-                    print()
                 return True
             else:
+                print(str(time.time() - self.start_time) + " " + str(self.limit))
                 return False
         else:
             self.set_is_not_last_tweet(True)
         return True
 
     def on_error(self, status_code):
-        print('Error raised: ' + status_code)
+        print('Error raised: ' + str(status_code))
         if status_code == 420 & current_user == 0:
             connectToStream()
         elif status_code == 420 & current_user == 1:
@@ -137,6 +129,9 @@ class MyStreamListener(tweepy.StreamListener):
         global is_not_last_tweet
         is_not_last_tweet = status
         print("Is not last tweet status :" + str(is_not_last_tweet))
+
+    def set_start_time(self):
+        self.start_time = time.time()
 
 class Tweet(GraphObject):
     __primarykey__ = "name"
@@ -159,6 +154,7 @@ myStreamListener.set_is_not_last_tweet(True)
 def connectToStream(word):
     print('Tracking: ' + word)
     global myStreamListener, hashtag, myStream
+    myStreamListener.set_start_time()
     hashtag = word
     graph.begin()
     graph.delete_all()

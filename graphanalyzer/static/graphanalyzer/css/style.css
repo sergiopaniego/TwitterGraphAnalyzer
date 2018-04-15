@@ -238,4 +238,14 @@ li h1 {
     top: 10px;
 }
 
+.hideTweetDetail {
+    display: none;
+}
+
+.showTweetDetail {
+    display: inline-block;
+    padding-top:10px;
+    border:1px solid #ffffff;
+}
+
 

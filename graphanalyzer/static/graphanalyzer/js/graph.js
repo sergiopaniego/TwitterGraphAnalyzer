@@ -21,13 +21,6 @@ nodeGroup = svg.append("g")
           .attr("class", "nodes")
           .attr("transform", "translate(0,0)scale(1,1)");;
 
-/*var scale = 1.0;
-var zoom = d3.zoom()
-    .scaleExtent([1, 5])
-    .on("zoom", zoomed);
-var clickScale = 2.0;
-var bbox, viewBox, vx, vy, vw, vh, defaultView;*/
-
 function updateGraph() {
     d3.json("tweets.json", function(targetElement, graph) {
         if (targetElement) throw targetElement;
@@ -55,18 +48,12 @@ function updateGraph() {
                 .data(graph.links);
 
             // Enter links
-            linkEnter = link
-                .enter().append("line");
-
-            link = linkEnter
-                .merge(link);
-
-            // Exit any old links
-            link.exit().remove();
+            link = link
+                .enter().append("line")
+                .attr("stroke-width", function(d) { return Math.sqrt(8); });
 
             // Update the nodes
-            node = nodeGroup/*.append("g")
-                .attr("id", "circles")*/
+            node = nodeGroup
                 .selectAll("g")
                 .data(graph.nodes);
 
@@ -91,24 +78,11 @@ function updateGraph() {
 
             node.append("text")
                 .attr("dx", -20)
-                //.attr("dy", ".35em")
-                .text(function(d) { return d.n.name });
+                .text(function(d) { return d.name });
 
 
             // Exit any old nodes
             node.exit().remove();
-
-
-            /*bbox = nodeEnter.node().getBBox();
-            vx = bbox.x;		// container x co-ordinate
-            vy = bbox.y;		// container y co-ordinate
-            vw = bbox.width;	// container width
-            vh = bbox.height;	// container height
-            defaultView = "" + vx + " " + vy + " " + vw + " " + vh;
-            svg
-                .attr("viewBox", defaultView)
-                .attr("preserveAspectRatio", "xMidYMid meet");*/
-
 
             function ticked() {
                 link
@@ -145,14 +119,17 @@ updateGraph();
 
 
 function showDetail(d, i) {
+    document.getElementById("tweetDetail").className="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xl-offset-3 showTweetDetail";
     var tweetText;
-    tweetText = "<img style=\"float: left;\" src=\"" + d.n.profile_picture + "\" alt=\"Profile picture\">"
-    tweetText = tweetText + "<h4 style=\"color:white;font-weight:bold;margin-left: 70px;margin-bottom:0px;\">" + d.n.name + "</h4>";
-    tweetText = tweetText + "<h6 style=\"color:white;margin-left: 70px;\">" + "@" + d.n.username + "</h6>";
-    tweetText = tweetText + "<h6 style=\"color:white\">" + d.n.tweet + "</h6>";
-    tweetText = tweetText + "<img style=\"float: left;\" src=\"/static/graphanalyzer/images/location.png\"/ height=\"15\" width=\"15\">"
-        +  "<h6 style=\"color:white;margin-left: 20px;\">" + d.n.location + "</h6>";
-    var tweetDate = new Date(d.n.time);
+    tweetText = "<img style=\"float: left;border:1px solid #ffffff;\" src=\"" + d.profile_picture + "\" alt=\"Profile picture\">"
+    tweetText = tweetText + "<h4 style=\"color:white;font-weight:bold;margin-left: 70px;margin-bottom:0px;\">" + d.name + "</h4>";
+    tweetText = tweetText + "<h6 style=\"color:white;margin-left: 70px;\">" + "@" + d.username + "</h6>";
+    tweetText = tweetText + "<h6 style=\"color:white\">" + d.tweet + "</h6>";
+    if (d.location !== undefined) {
+        tweetText = tweetText + "<img style=\"float: left;\" src=\"/static/graphanalyzer/images/location.png\"/ height=\"15\" width=\"15\">"
+        +  "<h6 style=\"color:white;margin-left: 20px;\">" + d.location + "</h6>";
+    }
+    var tweetDate = new Date(d.time);
     var timestamp = new Date();
     var difference = (timestamp - tweetDate)/ 1000;
     var showingTime;
@@ -167,39 +144,4 @@ function showDetail(d, i) {
     }
     tweetText = tweetText + "<h6 style=\"color:white\">" + showingTime + "</h6>";
     document.getElementById("tweetDetail").innerHTML=tweetText;
-    console.log(tweetText);
 }
-
-
-/*function clicked(d, i) {
-  if (d3.event.defaultPrevented) {
-    return; // panning, not clicking
-  }
-  node = d3.select(this);
-  var transform = getTransform(node, clickScale);
-  nodeEnter.transition().duration(1000)
-     .attr("transform", "translate(" + transform.translate + ")scale(" + transform.scale + ")");
-  zoom
-      .translate(transform.translate);
-  scale = transform.scale;
-}
-
-function getTransform(node, xScale) {
-  bbox = node.node().getBBox();
-  var bx = bbox.x;
-  var by = bbox.y;
-  var bw = bbox.width;
-  var bh = bbox.height;
-  var tx = -bx*xScale + vx + vw/2 - bw*xScale/2;
-  var ty = -by*xScale + vy + vh/2 - bh*xScale/2;
-  return {translate: [tx, ty], scale: xScale}
-}
-
-function zoomed() {
-  var translateX = d3.event.translate[0];
-  var translateY = d3.event.translate[1];
-  var xScale = d3.event.scale;
-  container.attr("transform", "translate(" + translateX + "," + translateY + ")scale(" + xScale + ")");
-}
-
-d3.select(self.frameElement).attr("margin", 10);*/
