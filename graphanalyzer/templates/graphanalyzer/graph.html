@@ -5,15 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'graphanalyzer/css/style.css' %}">
-
     </head>
     <body style="background-color: #000000;">
         <div>
             <ul style="text-align: center;">
-                <li><a  href="#normal"> <h2>Normal</h2></a></li>
-                <li><a class="active" href="#pageRank"> <h2>Page Rank</h2></a></li>
-                <li><a href="#betweenness"><h2>Betweenness</h2></a></li>
-                <li><a href="#closeness"><h2>Closeness</h2></a></li>
+                <li><a id="ordinary" href="/analyzer/graph"> <h2>Ordinary</h2></a></li>
+                <li><a id="pageRank" href="/analyzer/graph/pageRank"> <h2>Page Rank</h2></a></li>
+                <li><a id="betweenness" href="/analyzer/graph/betweenness"><h2>Betweenness</h2></a></li>
+                <li><a id="closeness" href="/analyzer/graph/closeness"><h2>Closeness</h2></a></li>
             </ul>
         </div>
         <div style="margin-bottom: 150px;" class="row justify-content-center"  id="graph">
@@ -40,15 +39,10 @@
         </footer>
 
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="{% static 'graphanalyzer/js/graph.js' %}"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="{% static 'graphanalyzer/js/graph.js' %}"></script>
+        <script src="{% static 'graphanalyzer/js/menu.js' %}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script>
-            $('li').click(function() {
-                $('li > a').removeClass();
-                $(this).children('a').addClass('active');
-            });
-        </script>
     </body>
 </html>

@@ -19,9 +19,9 @@
 .point circle {
   cursor: pointer;
   text-align: center;
-  fill: #E2137E;
-  r: 10;
-  stroke: #333;
+  fill: #6351ce;
+  r: 13;
+  stroke: #202432;
   stroke-width: 2px;
 }
 

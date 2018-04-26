@@ -72,13 +72,8 @@ function updateGraph() {
 
             node.append("circle")
                         .attr("r", radius - .75)
-                        .style("fill", function(d) { return color(d.group); })
-                        .style("stroke", function(d) { return d3.rgb(color(d.group)).darker(); })
                         .on("click", showDetail);;
 
-            node.append("text")
-                .attr("dx", -20)
-                .text(function(d) { return d.name });
 
 
             // Exit any old nodes
@@ -122,8 +117,12 @@ function showDetail(d, i) {
     document.getElementById("tweetDetail").className="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xl-offset-3 showTweetDetail";
     var tweetText;
     tweetText = "<img style=\"float: left;border:1px solid #ffffff;\" src=\"" + d.profile_picture + "\" alt=\"Profile picture\">"
-    tweetText = tweetText + "<h4 style=\"color:white;font-weight:bold;margin-left: 70px;margin-bottom:0px;\">" + d.name + "</h4>";
-    tweetText = tweetText + "<h6 style=\"color:white;margin-left: 70px;\">" + "@" + d.username + "</h6>";
+    tweetText = tweetText + "<h4 style=\"color:white;font-weight:bold;margin-left: 60px;margin-bottom:0px;\">" + d.name;
+    if (d.verified == true) {
+        tweetText = tweetText + "<img style=\"margin-left:5px;\" src=\"/static/graphanalyzer/images/verified.png\"/ height=\"15\" width=\"15\">";;
+    }
+     tweetText = tweetText + "</h4>";
+    tweetText = tweetText + "<h6 style=\"color:white;margin-left: 60px;\">" + "@" + d.username + "</h6>";
     tweetText = tweetText + "<h6 style=\"color:white\">" + d.tweet + "</h6>";
     if (d.location !== undefined) {
         tweetText = tweetText + "<img style=\"float: left;\" src=\"/static/graphanalyzer/images/location.png\"/ height=\"15\" width=\"15\">"

@@ -20,7 +20,7 @@ api = tweepy.API(auth)
 print(api.me())
 print('\n')
 
-list = []
+tweets_list = []
 following = []
 followed_by = []
 
@@ -35,8 +35,7 @@ except:
 is_not_last_tweet = True
 
 
-
-def changeAccount():
+def change_account():
     global api, current_user, hashtag
     try:
         auth = tweepy.OAuthHandler(consumer_keys[current_user], consumer_secrets[current_user])
@@ -49,7 +48,7 @@ def changeAccount():
             current_user = 0
         else:
             current_user = current_user + 1
-        changeAccount()
+        change_account()
 
     # Step 2: Creating a Stream
     myStreamListener = MyStreamListener()
@@ -59,9 +58,9 @@ def changeAccount():
     myStream.filter(track=[hashtag])
 
 
-def checkRelationships(tweetObject):
+def check_relationships(tweetObject):
     try:
-        for x in list:
+        for x in tweets_list:
             friendship = api.show_friendship(source_id=tweetObject.id, target_id=x.id)
             if friendship[0].following == True:
                 print("FOUND! FOLLOWING")
@@ -74,14 +73,13 @@ def checkRelationships(tweetObject):
         print("Rate Limit Error")
         global current_user
         current_user = current_user + 1
-        changeAccount()
+        change_account()
 
 
 # Using the streaming API has three steps.
 
 # Step 1: Create a class inheriting from StreamListener
 class MyStreamListener(tweepy.StreamListener):
-
     def __init__(self, time_limit=100):
         self.start_time = time.time()
         self.limit = time_limit
@@ -100,12 +98,13 @@ class MyStreamListener(tweepy.StreamListener):
                 tweetObject.location = tweet['user']['location']
                 tweetObject.id = tweet['user']['id']
                 tweetObject.profile_picture = tweet['user']['profile_image_url_https']
+                tweetObject.verified = tweet['user']['verified']
                 try:
                     tweetObject.tweet = tweet['extended_tweet']['full_text']
                 except KeyError:
                     tweetObject.tweet = tweet['text']
-                list.append(tweetObject)
-                checkRelationships(tweetObject)
+                tweets_list.append(tweetObject)
+                check_relationships(tweetObject)
                 if (tweet['user']['verified'] == 'true'):
                     print('verified')
                 else:
@@ -120,10 +119,6 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_error(self, status_code):
         print('Error raised: ' + str(status_code))
-        if status_code == 420 & current_user == 0:
-            connectToStream()
-        elif status_code == 420 & current_user == 1:
-            connectToStream()
 
     def set_is_not_last_tweet(self, status):
         global is_not_last_tweet
@@ -132,6 +127,7 @@ class MyStreamListener(tweepy.StreamListener):
 
     def set_start_time(self):
         self.start_time = time.time()
+
 
 class Tweet(GraphObject):
     __primarykey__ = "name"
@@ -142,16 +138,18 @@ class Tweet(GraphObject):
     time = Property()
     location = Property()
     id = Property()
+    verified = Property()
     profile_picture = Property()
     Following = Related("Tweet", "FOLLOWING")
     Followed_by = Related("Tweet", "FOLLOWED_BY")
+
 
 # Step 2: Creating a Stream
 myStreamListener = MyStreamListener()
 myStreamListener.set_is_not_last_tweet(True)
 
 
-def connectToStream(word):
+def connect_to_stream(word):
     print('Tracking: ' + word)
     global myStreamListener, hashtag, myStream
     myStreamListener.set_start_time()
@@ -163,7 +161,8 @@ def connectToStream(word):
     # Step 3: Starting a Stream
     myStream.filter(track=[word])
 
-def closeThread():
+
+def close_thread():
     global myStreamListener
     myStreamListener.set_is_not_last_tweet(False)
     myStream.disconnect()
