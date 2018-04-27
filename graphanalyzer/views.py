@@ -1,7 +1,8 @@
 import json
 import threading
+from json import JSONDecodeError
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 from py2neo import Graph, ClientError
@@ -18,11 +19,11 @@ def index(request):
 
 def load_json(request):
     json_data = open('tweets.json')
-    data = json.load(json_data)
-    return JsonResponse(data, safe=False)
-
-
-myList = []
+    try:
+        data = json.load(json_data)
+        return JsonResponse(data, safe=False)
+    except:
+        return HttpResponse('Decoding JSON has failed')
 
 
 class GraphView(FormView, ListView):
@@ -30,6 +31,7 @@ class GraphView(FormView, ListView):
     context_object_name = 'graph'
     form_class = HashtagForm
     thread_started = False
+    my_list = []
 
     def get_db_call(self, x):
         return {
@@ -42,14 +44,14 @@ class GraphView(FormView, ListView):
         }.get(x, 1)
 
     def form_valid(self, form):
-        if len(myList) > 0:
-            myList[0].close_thread()
-            myList.pop()
+        if len(self.my_list) > 0:
+            self.my_list[0].close_thread()
+            self.my_list.pop()
         thread = TwitterThread(1, 'Twitter Thread', form)
         time.sleep(2)
         thread.start()
-        myList.append(thread)
-        print('Number of threads ' + str(len(myList)))
+        self.my_list.append(thread)
+        print('Number of threads ' + str(len(self.my_list)))
         return super().form_valid(form)
 
     def get_queryset(self):
@@ -57,11 +59,7 @@ class GraphView(FormView, ListView):
         url = success_url.split("/")
         mode = url[len(url) - 1]
         mode = (self.get_db_call(mode))
-        thread = RefreshGraphThread(1, 'Refresh Thread', mode)
-        time.sleep(1)
-        thread.start()
-        graph = Graph(password=secrets.password)
-        return graph.data('MATCH(n) RETURN n')
+        RefreshGraphThread(1, 'Refresh Thread', mode)
 
 
 class TwitterThread(threading.Thread):
@@ -80,12 +78,12 @@ class TwitterThread(threading.Thread):
         twitterManager.close_thread()
 
 
-class RefreshGraphThread(threading.Thread):
+class RefreshGraphThread():
     def __init__(self, thread_id, name, mode):
-        threading.Thread.__init__(self)
         self.thread_id = thread_id
         self.name = name
         self.mode = mode
+        self.run()
 
     def check_tweet_text(self, tweet):
         new_tweet = ''
@@ -104,27 +102,32 @@ class RefreshGraphThread(threading.Thread):
             json.dump(graph.data('MATCH (node) RETURN (node),ID(node)'), outfile)
             outfile.write('}')
         tweets = '{"nodes": ['
-        nodes = json.load(open(filename))
+        try:
+            nodes = json.load(open(filename))
 
-        if type(self.mode) is not int:
-            try:
-                node_weights = json.dumps(graph.data(self.mode))
-            except ClientError:
-                node_weights = 1
-        else:
-            node_weights = 1
-        for idx, node in enumerate(nodes['nodes']):
-            node['node']['nodeId'] = str(node['ID(node)'])
-            if node_weights != 1:
-                weight = self.get_node_weight(int(node['node']['nodeId']), node_weights)
+            if type(self.mode) is not int:
+                try:
+                    node_weights = json.dumps(graph.data(self.mode))
+                except ClientError:
+                    node_weights = 1
             else:
-                weight = 1
-            node['node']['weight'] = str(weight)
-            tweets += json.dumps(node['node'])
-            if (idx + 1) < len(nodes['nodes']):
-                tweets += ','
-        tweets += ']'
-        return tweets
+                node_weights = 1
+            for idx, node in enumerate(nodes['nodes']):
+                node['node']['nodeId'] = str(node['ID(node)'])
+                if node_weights != 1:
+                    weight = self.get_node_weight(int(node['node']['nodeId']), node_weights)
+                else:
+                    weight = 1
+                node['node']['weight'] = str(weight)
+                tweets += json.dumps(node['node'])
+                if (idx + 1) < len(nodes['nodes']):
+                    tweets += ','
+            tweets += ']'
+            return tweets
+        except JSONDecodeError:
+            print('Decoding JSON has failed')
+        except IndexError:
+            print('Decoding JSON has failed')
 
     def get_node_weight(self, node_id, node_weights):
         i = 0
@@ -145,21 +148,21 @@ class RefreshGraphThread(threading.Thread):
             json.dump(graph.data('MATCH (n)-[r]->(m) RETURN n,r,m;'), outfile)
             outfile.write('}')
         links = ', "links": ['
-        relationships = json.load(open(filename))
-        for idx, relationship in enumerate(relationships['links']):
-            links += '{"source": ' + str(relationship['n']['id']) + ', "target": ' + str(
-                relationship['m']['id']) + ', "value": 1}'
-            if (idx + 1) < len(relationships['links']):
-                links += ','
-        links += ']}'
-        return links
+        try:
+            relationships = json.load(open(filename))
+            for idx, relationship in enumerate(relationships['links']):
+                links += '{"source": ' + str(relationship['n']['id']) + ', "target": ' + str(
+                    relationship['m']['id']) + ', "value": 1}'
+                if (idx + 1) < len(relationships['links']):
+                    links += ','
+            links += ']}'
+            return links
+        except JSONDecodeError:
+            print('Decoding JSON has failed')
 
     def run(self):
         print('Starting ' + self.name)
-        while True:
-            filename = 'tweets.json'
-            with open(filename, 'w') as outfile:
-                outfile.write(self.get_nodes())
-                outfile.write(self.get_links())
-            self.get_links()
-            time.sleep(5)
+        filename = 'tweets.json'
+        with open(filename, 'w') as outfile:
+            outfile.write(self.get_nodes())
+            outfile.write(self.get_links())
