@@ -17,15 +17,15 @@ First of all you need to download the project using
  ```
  git clone https://github.com/sergiopaniego/TwitterGraphAnalyzer.git
  ```
-* Python 3.6  
+* **Python 3.6**  
 [Downlooad Python here](https://www.python.org/downloads/)
-* Neo4j
+* **Neo4**j
 The password you inizializate the database with should be stored on a secrets.py file in the project's directory 
 as the value of a password variable  
 [Neo4j's download page](https://neo4j.com/download/)
-* Django  
+* **Django**  
 [Django's download page](https://www.djangoproject.com/download/)
-* Twitter API credentials  
+* **Twitter API credentials**  
 Same that with Neo4j, credentials should be stored in that secrets.py file so everything works securely  
 [Twitter API's web](https://developer.twitter.com/en/docs)  
 
@@ -57,15 +57,15 @@ Selecting any of the algorithms will calculate it and retrieve the new graph wit
 The information we get from Twitter is a bit exiguous if we just so the graph as it comes. We can really get a real insight on 
 what the graph is information is trying to say. That's why we apply different algorithms to the graph. From now, our project 
 can apply three different algorithms to that info, which are:
-* Page Rank: algorithm used by Google Search to rank websites in their search engine results. PageRank counts the number 
+* **Page Rank**: algorithm used by Google Search to rank websites in their search engine results. PageRank counts the number 
 and quality of links to a page to determine an estimate of how important the website is. The underlying assumption 
 is that more important websites are likely to receive more links from other websites. More info on how it works [here](http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf).
-* Betweenness: In graph theory, betweenness centrality is a measure of centrality in a graph based on shortest paths. 
+* **Betweenness**: In graph theory, betweenness centrality is a measure of centrality in a graph based on shortest paths. 
 For every pair of nodes in a connected graph, there exists at least one shortest path between the nodes such that either
  the number of relationships that the path passes through (for unweighted graphs) or the sum of the weights of the relationships
   (for weighted graphs) is minimized. The betweenness centrality for each vertex is the number of these shortest paths that pass
    through the vertex.
-* Closennees: The Closeness Centrality of a node measures the distance from that node to all other nodes.
+* **Closennees**: The Closeness Centrality of a node measures the distance from that node to all other nodes.
  Nodes with a high closeness score have the shortest distances to all other nodes. The premise of this algorithm is that
   nodes with short distance to other nodes can spread information very efficiently through the network. This is important 
   for the availability of knowledge and resources.
