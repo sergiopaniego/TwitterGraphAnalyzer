@@ -14,7 +14,9 @@ show the graph on an appealing format to the final user.
 ## What do I need to run the project
 *We are working on having all the infrastructure available as a Docker container so it's easier to have it working.*  
 First of all you need to download the project using  
-`git clone https://github.com/sergiopaniego/TwitterGraphAnalyzer.git`
+ ```
+ git clone https://github.com/sergiopaniego/TwitterGraphAnalyzer.git
+ ```
 * Python 3.6  
 [Downlooad Python here](https://www.python.org/downloads/)
 * Neo4j
@@ -28,12 +30,18 @@ Same that with Neo4j, credentials should be stored in that secrets.py file so ev
 [Twitter API's web](https://developer.twitter.com/en/docs)  
 
 After you've got everything ready, go to the project directory and start the Python project running the following command  
- `python3 manage.py runserver`  
+ ```
+ python3 manage.py runserver
+ ```  
 We have to start the database too going to the bin folder in neo4j's directory and running. This process should be avoided if 
 we have the desktop application because we directly start the database from there  
- `./neo4j start`  
+ ```
+ ./neo4j start
+ ```
 Once you're done with it, you can stop the database running  
- `./neo4j stop`  
+ ```
+ ./neo4j stop
+ ```
 ## How does it work
 After you have started the python program, you can go to the URL you allocated the program in and a web page like this will appear  
 ![Search Page Image](images/search_page.png)  
