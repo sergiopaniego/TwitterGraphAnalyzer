@@ -246,5 +246,7 @@ li h1 {
     padding-top:10px;
     border:1px solid #ffffff;
 }
-
+.point:not(:hover) .nodetext {
+        display: none;
+      }
 

@@ -29,6 +29,8 @@ function updateGraph() {
 d3.json("tweets.json", function(targetElement, graph) {
     if (targetElement) throw targetElement;
 
+    svg = svg.append("g")
+
     svg.selectAll("line").remove();
     svg.selectAll("circle").remove();
 
@@ -74,9 +76,16 @@ d3.json("tweets.json", function(targetElement, graph) {
 
         node.html("");
 
-        node.append("circle")
-                    .style("fill", function(d) { return color(Math.trunc(d.weight * 10)) })
-                    .attr("r", function(d) {
+
+
+        node.append("image")
+            .attr('x', -20)
+            .attr('y', -20)
+            .attr('width', 40)
+            .attr('height', 40)
+            // .attr("clip-path", "url(#clip)")
+            .attr("xlink:href", function(d) { return d.profile_picture })
+            .attr("r", function(d) {
                         var url = window.location.href.split('/');
                         if (url[url.length-1] == 'graph') {
                             return radius;
@@ -85,9 +94,31 @@ d3.json("tweets.json", function(targetElement, graph) {
                         } else {
                             return radius + (radius * d.weight^1.25);
                         }})
-                    .on("click", showDetail);;
+            .on("click", showDetail)
+            .on( 'mouseenter', function() {
+            // select element in current context
+            d3.select( this )
+              .transition()
+              .attr("x", function(d) { return -60;})
+              .attr("y", function(d) { return -60;})
+              .attr("height", 100)
+              .attr("width", 100);
+            })
+            // set back
+            .on( 'mouseleave', function() {
+            d3.select( this )
+              .transition()
+              .attr("x", function(d) { return -25;})
+              .attr("y", function(d) { return -25;})
+              .attr("height", 50)
+              .attr("width", 50);
+            });
 
-
+            node.append("text")
+                .attr("class", "nodetext")
+                .attr("x", 40)
+                .attr("y", 40)
+                .text(function(d) { return d.username });
 
         // Exit any old nodes
         node.exit().remove();
