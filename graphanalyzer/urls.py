@@ -9,6 +9,7 @@ urlpatterns = [
     path('graph/pageRank', views.GraphView.as_view(success_url="graph/pageRank"), name='pageRank'),
     path('graph/betweenness', views.GraphView.as_view(success_url="graph/betweenness"), name='betweenness'),
     path('graph/closeness', views.GraphView.as_view(success_url="graph/closeness"), name='closeness'),
+    path('graph/louvain', views.GraphView.as_view(success_url="graph/louvain"), name='louvain'),
     path('graph/tweets.json', views.load_json, name='load_json'),
     path('tweets.json', views.load_json, name='load_json')
 ]

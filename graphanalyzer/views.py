@@ -41,6 +41,9 @@ class GraphView(FormView, ListView):
                            ' centrality RETURN nodeId,centrality order by centrality desc limit 20;',
             'closeness': 'CALL algo.closeness.stream(\'Node\', \'LINKS\') YIELD nodeId, centrality RETURN nodeId,'
                          'centrality order by centrality desc limit 20;',
+            'louvain': 'CALL algo.louvain.stream(\'User\', \'FRIEND\', {})'
+                        'YIELD nodeId, community'
+                        'RETURN nodeId, community LIMIT 20;'
         }.get(x, 1)
 
     def form_valid(self, form):
@@ -122,8 +125,9 @@ class RefreshGraphThread():
                 tweets += json.dumps(node['node'])
                 if (idx + 1) < len(nodes['nodes']):
                     tweets += ','
-        except JSONDecodeError:
-            print('Decoding JSON has failed')
+        except JSONDecodeError as error:
+            print('Decoding JSON has failed ')
+            print(error)
         except IndexError:
             print('Decoding JSON has failed')
         tweets += ']'
@@ -138,7 +142,10 @@ class RefreshGraphThread():
         try:
             return node['score']
         except KeyError:
-            return node['centrality']
+            try:
+                return node['centrality']
+            except KeyError:
+                return node['community']
 
     def get_links(self):
         graph = Graph(password=secrets.password)

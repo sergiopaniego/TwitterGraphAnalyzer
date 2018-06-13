@@ -77,41 +77,45 @@ d3.json("tweets.json", function(targetElement, graph) {
         node.html("");
 
 
+        var x = -20
+        var y = -20
+        var width = 40
+        var height = 40
+        var url = window.location.href.split('/');
+        function getMeasurement(x, d) {
+            if (url[url.length-1] == 'graph' || url[url.length-1] == 'louvain' ) {
+                return x;
+            } else if (url[url.length-1] == 'closeness') {
+                return x + Math.trunc(d.weight);
+            } else if (url[url.length-1] == 'betweenness') {
+                return x + (x * d.weight^1.25);
+            }
+        }
 
         node.append("image")
-            .attr('x', -20)
-            .attr('y', -20)
-            .attr('width', 40)
-            .attr('height', 40)
-            // .attr("clip-path", "url(#clip)")
+            .attr('x', function(d) {return getMeasurement(x, d)})
+            .attr('y', function(d) {return getMeasurement(y, d)})
+            .attr('width', function(d) {return getMeasurement(width, d)})
+            .attr('height', function(d) {return getMeasurement(height, d)})
             .attr("xlink:href", function(d) { return d.profile_picture })
-            .attr("r", function(d) {
-                        var url = window.location.href.split('/');
-                        if (url[url.length-1] == 'graph') {
-                            return radius;
-                        } else if (url[url.length-1] == 'closeness') {
-                            return radius + Math.trunc(d.weight);
-                        } else {
-                            return radius + (radius * d.weight^1.25);
-                        }})
             .on("click", showDetail)
             .on( 'mouseenter', function() {
             // select element in current context
             d3.select( this )
-              .transition()
-              .attr("x", function(d) { return -60;})
-              .attr("y", function(d) { return -60;})
-              .attr("height", 100)
-              .attr("width", 100);
+                .transition()
+                .attr('x', function(d) {return getMeasurement(x, d) * 2})
+                .attr('y', function(d) {return getMeasurement(y, d) * 2})
+                .attr('width', function(d) {return getMeasurement(width, d) * 2})
+                .attr('height', function(d) {return getMeasurement(height, d) * 2})
             })
             // set back
             .on( 'mouseleave', function() {
             d3.select( this )
-              .transition()
-              .attr("x", function(d) { return -25;})
-              .attr("y", function(d) { return -25;})
-              .attr("height", 50)
-              .attr("width", 50);
+                .transition()
+                .attr('x', function(d) {return getMeasurement(x, d)})
+                .attr('y', function(d) {return getMeasurement(y, d)})
+                .attr('width', function(d) {return getMeasurement(width, d)})
+                .attr('height', function(d) {return getMeasurement(height, d)})
             });
 
             node.append("text")
