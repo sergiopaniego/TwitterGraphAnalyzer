@@ -6,6 +6,14 @@ import secrets
 from py2neo import Graph
 from py2neo.ogm import Property, GraphObject, Related
 
+'''
+
+    TODO
+        - Add the node that the tweet is reply to
+        - This is considered a relationship so it should be added as that
+        in the graph.
+'''
+
 consumer_keys = secrets.consumer_keys
 consumer_secrets = secrets.consumer_secrets
 
@@ -86,11 +94,22 @@ class MyStreamListener(tweepy.StreamListener):
         super(MyStreamListener, self).__init__()
 
     def on_data(self, data):
+        tweet = json.loads(data)
+        return self.add_new_tweet(tweet)
+
+    def on_error(self, status_code):
+        print('Error raised: ' + str(status_code))
+
+    def add_new_tweet(self, tweet):
         global is_not_last_tweet
         print("Is not last tweet :" + str(is_not_last_tweet))
         if is_not_last_tweet:
             if (time.time() - self.start_time) < self.limit:
-                tweet = json.loads(data)
+                if tweet['in_reply_to_user_id'] is not None:
+                    print('IS REPLY! ' + str(tweet['in_reply_to_user_id']) + '\n')
+                    self.add_replied_tweet(tweet)
+                else:
+                    print('NOT REPLY\n')
                 tweetObject = Tweet()
                 tweetObject.username = tweet['user']['screen_name']
                 tweetObject.name = tweet['user']['name']
@@ -117,9 +136,6 @@ class MyStreamListener(tweepy.StreamListener):
             self.set_is_not_last_tweet(True)
         return True
 
-    def on_error(self, status_code):
-        print('Error raised: ' + str(status_code))
-
     def set_is_not_last_tweet(self, status):
         global is_not_last_tweet
         is_not_last_tweet = status
@@ -127,6 +143,29 @@ class MyStreamListener(tweepy.StreamListener):
 
     def set_start_time(self):
         self.start_time = time.time()
+
+    def add_replied_tweet(self, tweet):
+        try:
+            print('ENTRA\n')
+            tweet_id = tweet['in_reply_to_status_id']
+            tweet = api.get_status(tweet_id)
+            print(tweet)
+            print()
+            print(tweet.text)
+            print()
+            json_str = json.dumps(tweet._json)
+            tweet = json.loads(json_str)
+            print(tweet['text'])
+            print()
+            self.add_new_tweet(tweet)
+        except tweepy.RateLimitError:
+            print("Rate Limit Error")
+            global current_user
+            current_user = current_user + 1
+            change_account()
+        except tweepy.TweepError:
+            print('Error when getting tweet. It is probably a deleted tweet')
+
 
 
 class Tweet(GraphObject):

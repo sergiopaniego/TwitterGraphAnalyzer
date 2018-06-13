@@ -122,12 +122,12 @@ class RefreshGraphThread():
                 tweets += json.dumps(node['node'])
                 if (idx + 1) < len(nodes['nodes']):
                     tweets += ','
-            tweets += ']'
-            return tweets
         except JSONDecodeError:
             print('Decoding JSON has failed')
         except IndexError:
             print('Decoding JSON has failed')
+        tweets += ']'
+        return tweets
 
     def get_node_weight(self, node_id, node_weights):
         i = 0
