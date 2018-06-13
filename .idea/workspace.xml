@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="658af347-5d15-4beb-b626-4677dd1d3672" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css" afterPath="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js" afterPath="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphanalyzer/templates/graphanalyzer/graph.html" afterPath="$PROJECT_DIR$/graphanalyzer/templates/graphanalyzer/graph.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphanalyzer/urls.py" afterPath="$PROJECT_DIR$/graphanalyzer/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphanalyzer/views.py" afterPath="$PROJECT_DIR$/graphanalyzer/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphanalyzer/twitterManager.py" afterPath="$PROJECT_DIR$/graphanalyzer/twitterManager.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,7 +33,7 @@
         <entry file="file://$PROJECT_DIR$/tweets.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+              <caret line="0" column="4994" lean-forward="false" selection-start-line="0" selection-start-column="4994" selection-end-line="0" selection-end-column="4994" />
               <folding />
             </state>
           </provider>
@@ -52,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="twitterManager.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="twitterManager.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graphanalyzer/twitterManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12">
-              <caret line="111" column="35" lean-forward="false" selection-start-line="111" selection-start-column="27" selection-end-line="111" selection-end-column="35" />
+            <state relative-caret-position="90">
+              <caret line="6" column="53" lean-forward="false" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -74,11 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graph.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="graph.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="108" column="83" lean-forward="false" selection-start-line="108" selection-start-column="83" selection-end-line="108" selection-end-column="83" />
+            <state relative-caret-position="227">
+              <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -87,8 +86,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3720">
-              <caret line="248" column="6" lean-forward="false" selection-start-line="248" selection-start-column="6" selection-end-line="248" selection-end-column="6" />
+            <state relative-caret-position="313">
+              <caret line="259" column="17" lean-forward="false" selection-start-line="259" selection-start-column="17" selection-end-line="259" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -121,7 +120,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tweets.</find>
       <find>tweets.j</find>
       <find>tweets.js</find>
       <find>tweets.jso</find>
@@ -151,6 +149,7 @@
       <find>closeness</find>
       <find>closen</find>
       <find>tweets.json</find>
+      <find>louvain</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -185,13 +184,13 @@
         <option value="$PROJECT_DIR$/nodes.json" />
         <option value="$PROJECT_DIR$/secrets.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css" />
-        <option value="$PROJECT_DIR$/graphanalyzer/twitterManager.py" />
         <option value="$PROJECT_DIR$/graphanalyzer/urls.py" />
         <option value="$PROJECT_DIR$/graphanalyzer/templates/graphanalyzer/graph.html" />
-        <option value="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js" />
         <option value="$PROJECT_DIR$/tweets.json" />
         <option value="$PROJECT_DIR$/graphanalyzer/views.py" />
+        <option value="$PROJECT_DIR$/graphanalyzer/twitterManager.py" />
+        <option value="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css" />
+        <option value="$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js" />
       </list>
     </option>
   </component>
@@ -481,20 +480,27 @@
       <option name="project" value="LOCAL" />
       <updated>1528884802277</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Louvain algorithm added and image size based on node weight">
+      <created>1528889750482</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1528889750482</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21959943" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21959943" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30120483" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5421687" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39759037" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -575,7 +581,8 @@
     <MESSAGE value="README.md updated" />
     <MESSAGE value="Profile picture on node and username on hover over the node" />
     <MESSAGE value="Add replied tweet to the graph if the node is a reply" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add replied tweet to the graph if the node is a reply" />
+    <MESSAGE value="Louvain algorithm added and image size based on node weight" />
+    <option name="LAST_COMMIT_MESSAGE" value="Louvain algorithm added and image size based on node weight" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -856,14 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3720">
-          <caret line="248" column="6" lean-forward="false" selection-start-line="248" selection-start-column="6" selection-end-line="248" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/graphanalyzer/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -893,14 +892,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="108" column="83" lean-forward="false" selection-start-line="108" selection-start-column="83" selection-end-line="108" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nodes.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -912,7 +903,7 @@
     <entry file="file://$PROJECT_DIR$/tweets.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+          <caret line="0" column="4994" lean-forward="false" selection-start-line="0" selection-start-column="4994" selection-end-line="0" selection-end-column="4994" />
           <folding />
         </state>
       </provider>
@@ -929,11 +920,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graphanalyzer/twitterManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12">
-          <caret line="111" column="35" lean-forward="false" selection-start-line="111" selection-start-column="27" selection-end-line="111" selection-end-column="35" />
+        <state relative-caret-position="90">
+          <caret line="6" column="53" lean-forward="false" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="259" column="17" lean-forward="false" selection-start-line="259" selection-start-column="17" selection-end-line="259" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphanalyzer/static/graphanalyzer/js/graph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>

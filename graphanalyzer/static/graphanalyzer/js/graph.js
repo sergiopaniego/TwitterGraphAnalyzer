@@ -87,7 +87,7 @@ d3.json("tweets.json", function(targetElement, graph) {
                 return x;
             } else if (url[url.length-1] == 'closeness') {
                 return x + Math.trunc(d.weight);
-            } else if (url[url.length-1] == 'betweenness') {
+            } else {
                 return x + (x * d.weight^1.25);
             }
         }
@@ -97,32 +97,39 @@ d3.json("tweets.json", function(targetElement, graph) {
             .attr('y', function(d) {return getMeasurement(y, d)})
             .attr('width', function(d) {return getMeasurement(width, d)})
             .attr('height', function(d) {return getMeasurement(height, d)})
-            .attr("xlink:href", function(d) { return d.profile_picture })
-            .on("click", showDetail)
-            .on( 'mouseenter', function() {
-            // select element in current context
-            d3.select( this )
-                .transition()
-                .attr('x', function(d) {return getMeasurement(x, d) * 2})
-                .attr('y', function(d) {return getMeasurement(y, d) * 2})
-                .attr('width', function(d) {return getMeasurement(width, d) * 2})
-                .attr('height', function(d) {return getMeasurement(height, d) * 2})
-            })
-            // set back
-            .on( 'mouseleave', function() {
-            d3.select( this )
-                .transition()
-                .attr('x', function(d) {return getMeasurement(x, d)})
-                .attr('y', function(d) {return getMeasurement(y, d)})
-                .attr('width', function(d) {return getMeasurement(width, d)})
-                .attr('height', function(d) {return getMeasurement(height, d)})
-            });
+            .attr("xlink:href", function(d) { return d.profile_picture });
 
             node.append("text")
                 .attr("class", "nodetext")
-                .attr("x", 40)
-                .attr("y", 40)
+                .attr("x", function(d) {return getMeasurement(width, d) * 0.8})
+                .attr("y", function(d) {return getMeasurement(height, d) * 0.8})
                 .text(function(d) { return d.username });
+
+            node.append('rect')
+                .attr('class', 'image-border')
+                .attr('x', function(d) {return getMeasurement(x, d)})
+                .attr('y', function(d) {return getMeasurement(y, d)})
+                .attr('width', function(d) {return getMeasurement(width, d)})
+                .attr('height', function(d) {return getMeasurement(height, d)}
+            )
+            .on("click", showDetail)
+            .on( 'mouseenter', function() {
+            // select element in current context
+                d3.select( this )
+                    .transition()
+                    .attr('x', function(d) {return getMeasurement(x, d) * 1.1})
+                    .attr('y', function(d) {return getMeasurement(y, d) * 1.1})
+                    .attr('width', function(d) {return getMeasurement(width, d) * 1.1})
+                    .attr('height', function(d) {return getMeasurement(height, d) * 1.1})
+            })
+            .on( 'mouseleave', function() {
+                d3.select( this )
+                    .transition()
+                    .attr('x', function(d) {return getMeasurement(x, d)})
+                    .attr('y', function(d) {return getMeasurement(y, d)})
+                    .attr('width', function(d) {return getMeasurement(width, d)})
+                    .attr('height', function(d) {return getMeasurement(height, d)})
+            });
 
         // Exit any old nodes
         node.exit().remove();

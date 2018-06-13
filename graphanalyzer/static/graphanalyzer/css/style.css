@@ -247,6 +247,16 @@ li h1 {
     border:1px solid #ffffff;
 }
 .point:not(:hover) .nodetext {
-        display: none;
-      }
+    display: none;
+}
+
+.image-border {
+  fill: transparent;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.image-border:hover {
+  stroke: black;
+  stroke-width: 5px;
+}
 

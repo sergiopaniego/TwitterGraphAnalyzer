@@ -6,14 +6,6 @@ import secrets
 from py2neo import Graph
 from py2neo.ogm import Property, GraphObject, Related
 
-'''
-
-    TODO
-        - Add the node that the tweet is reply to
-        - This is considered a relationship so it should be added as that
-        in the graph.
-'''
-
 consumer_keys = secrets.consumer_keys
 consumer_secrets = secrets.consumer_secrets
 
