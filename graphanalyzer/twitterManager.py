@@ -99,8 +99,6 @@ class MyStreamListener(tweepy.StreamListener):
             if (time.time() - self.start_time) < self.limit:
                 if tweet['in_reply_to_user_id'] is not None:
                     self.add_replied_tweet(tweet)
-                else:
-                    print('NOT REPLY\n')
                 tweetObject = Tweet()
                 tweetObject.username = tweet['user']['screen_name']
                 tweetObject.name = tweet['user']['name']
@@ -115,6 +113,7 @@ class MyStreamListener(tweepy.StreamListener):
                     tweetObject.tweet = tweet['text']
                 tweets_list.append(tweetObject)
                 check_relationships(tweetObject)
+                print('Tweet and relationships added')
                 if (tweet['user']['verified'] == 'true'):
                     print('verified')
                 else:

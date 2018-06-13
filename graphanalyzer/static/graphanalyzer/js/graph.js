@@ -205,6 +205,8 @@ function showDetail(d, i) {
     if (url[url.length-1] != 'graph') {
          tweetText = tweetText + "<h6 style=\"color:white\"> Weight value: " + Number(d.weight).toFixed(2) + "</h6>";
     }
-    tweetText = tweetText + "<h6 style=\"color:white\"> Community value: " + Number(d.community).toFixed(2) + "</h6>";
+    if (url[url.length-1] == 'louvain') {
+         tweetText = tweetText + "<h6 style=\"color:white\"> Community value: " + Number(d.community).toFixed(2) + "</h6>";
+    }
     document.getElementById("tweetDetail").innerHTML=tweetText;
 }

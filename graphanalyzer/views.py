@@ -145,15 +145,16 @@ class RefreshGraphThread():
         except JSONDecodeError as error:
             print('Decoding JSON has failed ')
             print(error)
-        except IndexError:
+        except IndexError as error:
             print('Decoding JSON has failed')
+            print(error)
         tweets += ']'
         return tweets
 
     def get_node_weight(self, node_id, node_weights):
         i = 0
         node = json.loads(json.dumps(json.loads(node_weights)[0]))
-        while node['nodeId'] != node_id:
+        while node['nodeId'] != node_id and i < 20:
             i += 1
             node = json.loads(json.dumps(json.loads(node_weights)[i]))
         try:
@@ -189,8 +190,9 @@ class RefreshGraphThread():
                     links += ','
             links += ']}'
             return links
-        except JSONDecodeError:
+        except JSONDecodeError as error:
             print('Decoding JSON has failed')
+            print(error)
 
     def run(self):
         print('Starting ' + self.name)
