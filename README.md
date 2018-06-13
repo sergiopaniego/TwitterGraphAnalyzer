@@ -47,8 +47,9 @@ After you have started the python program, you can go to the URL you allocated t
 ![Search Page Image](images/search_page.png)  
 Them you just have to type in the input form the word you want to track.
 That will take you to a web page with the following look  
-![Graph Page Image](images/graph_page.png)  
-Where you can see the different tweets as nodes of the graph, each one with their relationships shown. Clicking on a node,
+![Graph Page Image](images/pagerank_graph_page.png)  
+Where you can see the different tweets as nodes of the graph, each one with their relationships shown. Hovering over a node
+you can see username of the node and clicking on a node,
 you will see on the bottom on the graph a detail of the tweet with the relevant information on it. The Update Graph button 
 on the bottom part of the page reloads the page and brings the new nodes and connections added to the graph.
 On the header you can select the algorithm you would like to apply to the graph so we can have a better understanding of the relationships the nodes have in between.
@@ -69,6 +70,11 @@ For every pair of nodes in a connected graph, there exists at least one shortest
  Nodes with a high closeness score have the shortest distances to all other nodes. The premise of this algorithm is that
   nodes with short distance to other nodes can spread information very efficiently through the network. This is important 
   for the availability of knowledge and resources.
+* **Louvain**: The Louvain method of community detection is an algorithm for detecting communities in networks that relies
+ upon a heuristic for maximizing the modularity. Communities are groups of nodes within a network that are more densely
+  connected to one another than to other nodes. As you can see in the image below, the three nodes that are part of the 
+  same community (the ones connected) are represented with the same border color.
+![Louvain Page Image](images/louvain_graph_page.png)  
 
 We plan to add more algorithms in the future so we can better understand the information from the graph.
 ## Future work
