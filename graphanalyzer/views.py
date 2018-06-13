@@ -38,12 +38,13 @@ class GraphView(FormView, ListView):
             'pageRank': 'CALL algo.pageRank.stream(\'Tweet\', \'Relationship\', {iterations:5}) YIELD nodeId,'
                         ' score WITH * ORDER BY score DESC LIMIT 20 RETURN nodeId, score;',
             'betweenness': 'CALL algo.betweenness.stream(\'Tweet\',\'RELATED\',{direction:\'out\'})YIELD nodeId,'
-                           ' centrality RETURN nodeId,centrality order by centrality desc limit 20;',
+                        ' centrality RETURN nodeId,centrality order by centrality desc limit 20;',
             'closeness': 'CALL algo.closeness.stream(\'Node\', \'LINKS\') YIELD nodeId, centrality RETURN nodeId,'
-                         'centrality order by centrality desc limit 20;',
-            'louvain': 'CALL algo.louvain.stream(\'User\', \'FRIEND\', {})'
-                        'YIELD nodeId, community'
-                        'RETURN nodeId, community LIMIT 20;'
+                        'centrality order by centrality desc limit 20;',
+            'louvain': 'CALL algo.louvain.stream(\'Tweet\', \'RELATED\','
+                        '{weightProperty:\'propertyName\', defaultValue:1.0, concurrency:4})'
+                        ' YIELD nodeId, community '
+                        ' RETURN nodeId, community LIMIT 20;'
         }.get(x, 1)
 
     def form_valid(self, form):
@@ -107,21 +108,37 @@ class RefreshGraphThread():
         tweets = '{"nodes": ['
         try:
             nodes = json.load(open(filename))
-
             if type(self.mode) is not int:
-                try:
-                    node_weights = json.dumps(graph.data(self.mode))
-                except ClientError:
+                if len(self.mode.split('louvain')) < 2 :
+                    print(self.mode)
+                    nodes_communities = 1
+                    try:
+                        node_weights = json.dumps(graph.data(self.mode))
+                    except ClientError as error:
+                        print('ERROR: ' + error.message)
+                        node_weights = 1
+                elif len(self.mode.split('louvain')) == 2:
                     node_weights = 1
+                    try:
+                        nodes_communities = json.dumps(graph.data(self.mode))
+                    except ClientError as error:
+                        print('ERROR: ' + error.message)
+                        nodes_communities = 1
             else:
                 node_weights = 1
+                nodes_communities = 1
             for idx, node in enumerate(nodes['nodes']):
                 node['node']['nodeId'] = str(node['ID(node)'])
                 if node_weights != 1:
                     weight = self.get_node_weight(int(node['node']['nodeId']), node_weights)
                 else:
                     weight = 1
+                if nodes_communities != 1:
+                    community = self.get_node_community(int(node['node']['nodeId']), nodes_communities)
+                else:
+                    community = 1
                 node['node']['weight'] = str(weight)
+                node['node']['community'] = str(community)
                 tweets += json.dumps(node['node'])
                 if (idx + 1) < len(nodes['nodes']):
                     tweets += ','
@@ -146,6 +163,14 @@ class RefreshGraphThread():
                 return node['centrality']
             except KeyError:
                 return node['community']
+
+    def get_node_community(self, node_id, nodes_communities):
+        i = 0
+        node = json.loads(json.dumps(json.loads(nodes_communities)[0]))
+        while node['nodeId'] != node_id and i < 20:
+            i += 1
+            node = json.loads(json.dumps(json.loads(nodes_communities)[i]))
+        return node['community']
 
     def get_links(self):
         graph = Graph(password=secrets.password)

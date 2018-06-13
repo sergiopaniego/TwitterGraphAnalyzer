@@ -252,11 +252,9 @@ li h1 {
 
 .image-border {
   fill: transparent;
-  stroke: black;
   shape-rendering: crispEdges;
 }
 .image-border:hover {
-  stroke: black;
   stroke-width: 5px;
 }
 

@@ -91,6 +91,8 @@ d3.json("tweets.json", function(targetElement, graph) {
                 return x + (x * d.weight^1.25);
             }
         }
+        var color = ['red', 'black', 'blue', 'green', 'orange', 'purple', 'pink', 'grey', 'yellow', 'brown',
+            'coral', 'cyan', 'deeppink', 'gold', 'lime', 'maroon', 'navy', 'olive', 'orchid', 'teal'];
 
         node.append("image")
             .attr('x', function(d) {return getMeasurement(x, d)})
@@ -107,6 +109,9 @@ d3.json("tweets.json", function(targetElement, graph) {
 
             node.append('rect')
                 .attr('class', 'image-border')
+                .style('stroke', function(d) {
+                    return color[Number(d.community)]
+                })
                 .attr('x', function(d) {return getMeasurement(x, d)})
                 .attr('y', function(d) {return getMeasurement(y, d)})
                 .attr('width', function(d) {return getMeasurement(width, d)})
@@ -200,5 +205,6 @@ function showDetail(d, i) {
     if (url[url.length-1] != 'graph') {
          tweetText = tweetText + "<h6 style=\"color:white\"> Weight value: " + Number(d.weight).toFixed(2) + "</h6>";
     }
+    tweetText = tweetText + "<h6 style=\"color:white\"> Community value: " + Number(d.community).toFixed(2) + "</h6>";
     document.getElementById("tweetDetail").innerHTML=tweetText;
 }

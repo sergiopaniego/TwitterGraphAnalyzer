@@ -98,7 +98,6 @@ class MyStreamListener(tweepy.StreamListener):
         if is_not_last_tweet:
             if (time.time() - self.start_time) < self.limit:
                 if tweet['in_reply_to_user_id'] is not None:
-                    print('IS REPLY! ' + str(tweet['in_reply_to_user_id']) + '\n')
                     self.add_replied_tweet(tweet)
                 else:
                     print('NOT REPLY\n')
@@ -138,17 +137,10 @@ class MyStreamListener(tweepy.StreamListener):
 
     def add_replied_tweet(self, tweet):
         try:
-            print('ENTRA\n')
             tweet_id = tweet['in_reply_to_status_id']
             tweet = api.get_status(tweet_id)
-            print(tweet)
-            print()
-            print(tweet.text)
-            print()
             json_str = json.dumps(tweet._json)
             tweet = json.loads(json_str)
-            print(tweet['text'])
-            print()
             self.add_new_tweet(tweet)
         except tweepy.RateLimitError:
             print("Rate Limit Error")
