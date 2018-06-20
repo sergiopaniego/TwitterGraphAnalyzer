@@ -51,8 +51,8 @@ def change_account():
         change_account()
 
     # Step 2: Creating a Stream
-    myStreamListener = MyStreamListener()
-    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+    twitterStreamListener = TwitterStreamListener()
+    myStream = tweepy.Stream(auth=api.auth, listener=twitterStreamListener)
 
     # Step 3: Starting a Stream
     myStream.filter(track=[hashtag])
@@ -79,11 +79,11 @@ def check_relationships(tweetObject):
 # Using the streaming API has three steps.
 
 # Step 1: Create a class inheriting from StreamListener
-class MyStreamListener(tweepy.StreamListener):
+class TwitterStreamListener(tweepy.StreamListener):
     def __init__(self, time_limit=100):
         self.start_time = time.time()
         self.limit = time_limit
-        super(MyStreamListener, self).__init__()
+        super(TwitterStreamListener, self).__init__()
 
     def on_data(self, data):
         tweet = json.loads(data)
@@ -167,26 +167,26 @@ class Tweet(GraphObject):
 
 
 # Step 2: Creating a Stream
-myStreamListener = MyStreamListener()
-myStreamListener.set_is_not_last_tweet(True)
+twitterStreamListener = TwitterStreamListener()
+twitterStreamListener.set_is_not_last_tweet(True)
 
 
 def connect_to_stream(word):
     print('Tracking: ' + word)
-    global myStreamListener, hashtag, myStream
-    myStreamListener.set_start_time()
+    global twitterStreamListener, hashtag, myStream
+    twitterStreamListener.set_start_time()
     hashtag = word
     graph.begin()
     graph.delete_all()
-    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+    myStream = tweepy.Stream(auth=api.auth, listener=twitterStreamListener)
 
     # Step 3: Starting a Stream
     myStream.filter(track=[word])
 
 
 def close_thread():
-    global myStreamListener
-    myStreamListener.set_is_not_last_tweet(False)
+    global twitterStreamListener
+    twitterStreamListener.set_is_not_last_tweet(False)
     myStream.disconnect()
     graph.delete_all()
 

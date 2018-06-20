@@ -9,11 +9,3 @@ class Tweet(models.Model):
 
     def __str__(self):
         return self.username + ": " + self.tweet
-
-
-'''
-    DOUBTS
-        Links, pictures and so count as chars?
-        Should I store connections like following, followed_by?
-        Should I store user info?
-'''
