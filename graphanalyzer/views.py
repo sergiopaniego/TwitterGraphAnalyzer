@@ -130,11 +130,17 @@ class RefreshGraphThread():
             for idx, node in enumerate(nodes['nodes']):
                 node['node']['nodeId'] = str(node['ID(node)'])
                 if node_weights != 1:
-                    weight = self.get_node_weight(int(node['node']['nodeId']), node_weights)
+                    try:
+                        weight = self.get_node_weight(int(node['node']['nodeId']), node_weights)
+                    except:
+                        weight = 0
                 else:
                     weight = 1
                 if nodes_communities != 1:
-                    community = self.get_node_community(int(node['node']['nodeId']), nodes_communities)
+                    try:
+                        community = self.get_node_community(int(node['node']['nodeId']), nodes_communities)
+                    except:
+                        community = 20
                 else:
                     community = 1
                 node['node']['weight'] = str(weight)
@@ -185,7 +191,7 @@ class RefreshGraphThread():
             relationships = json.load(open(filename))
             for idx, relationship in enumerate(relationships['links']):
                 links += '{"source": ' + str(relationship['n']['id']) + ', "target": ' + str(
-                    relationship['m']['id']) + ', "value": 1}'
+                    relationship['m']['id']) + '}'
                 if (idx + 1) < len(relationships['links']):
                     links += ','
             links += ']}'
