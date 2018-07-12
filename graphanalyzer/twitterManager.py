@@ -13,6 +13,7 @@ access_tokens = secrets.access_tokens
 access_token_secrets = secrets.access_token_secrets
 
 current_user = 0
+search_time_limit = 100
 
 auth = tweepy.OAuthHandler(consumer_keys[current_user], consumer_secrets[current_user])
 auth.set_access_token(access_tokens[current_user], access_token_secrets[current_user])
@@ -80,7 +81,7 @@ def check_relationships(tweetObject):
 
 # Step 1: Create a class inheriting from StreamListener
 class TwitterStreamListener(tweepy.StreamListener):
-    def __init__(self, time_limit=100):
+    def __init__(self, time_limit=search_time_limit):
         self.start_time = time.time()
         self.limit = time_limit
         super(TwitterStreamListener, self).__init__()
